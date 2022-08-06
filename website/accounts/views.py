@@ -57,7 +57,6 @@ def user_register(request):
             )
             email.send(fail_silently=False)
             messages.warning(request,"please wait for activate ...",'warning')
-            messages.success(request,"register is completed","success")
             return redirect("home:home")
         else:
             messages.success(request,"your are not registered","danger")

@@ -6,17 +6,19 @@
 {% endblock head%}
 {% block body%} 
 <h1>Register Page</h1>
-<div style="border-radius: 5px; width:230px;margin-left: 500px ; margin-top:20px;margin-bottom: 100px;background-color: dimgrey;padding:20px" class="form"> <form method='post' novalidate> 
+<div style="border-radius: 5px; width:230px;margin-left: 500px ; margin-top:20px;margin-bottom: 100px;background-color: dimgrey;padding:20px" class="form"> 
+    <form method='post' > 
     {% csrf_token %}
         
-        <input style="border-radius:5px; background-color:burlywood; padding:3px" type="text" name="user_name" placeholder="enter your username" maxlength="50" required="" id="id_user_name"> <br><br>
+    <input style="border-radius:5px; background-color:burlywood; padding:3px" type="text" name="user" placeholder="enter your username" maxlength="50" required="" id="id_user"> <br><br>
         <input style="border-radius:5px; background-color:burlywood; padding:3px" type="email" name="email" placeholder="enter your email" required="" id="id_email"><br><br>
-        <input style="border-radius:5px; background-color:burlywood; padding:3px" type="text" name="first_name" placeholder="enter your first name" maxlength="50" required="" id="id_first_name"><br><br>
-        <input style="border-radius:5px; background-color:burlywood; padding:3px" type="text" name="last_name" placeholder="enter your last name" maxlength="50" required="" id="id_last_name"><br><br>
+        <input style="border-radius:5px; background-color:burlywood; padding:3px" type="text" name="first_name" placeholder="enter your first name" maxlength="50"  id="id_first_name"><br><br>
+        <input style="border-radius:5px; background-color:burlywood; padding:3px" type="text" name="last_name" placeholder="enter your last name" maxlength="50" id="id_last_name"><br><br>
         <input style="border-radius:5px; background-color:burlywood; padding:3px" type="password" name="password_1" placeholder="enter your password" maxlength="20" required="" id="id_password_1"><br><br>
         <input style="border-radius:5px; background-color:burlywood; padding:3px" type="password" name="password_2" placeholder="enter your password again" maxlength="20" required="" id="id_password_2"><br><br>
         <button type="submit" class="btn btn-danger" style="height: 29px; padding:1.5px;" > regsiter</button>
-    </form> </div>
+    </form>
+ </div>
 
    
 {% endblock %}
