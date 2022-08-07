@@ -14,7 +14,7 @@
     <div class="carousel-inner">
        {% for i in gallery %}  
         <div class="carousel-item {% if forloop.first %} active {% endif %}">
-            <img src="{{i.image.url}}" style="width:auto; height:600px;" class="d-block w-100" alt="...">
+            <a {% for cat in category%} {% if cat.name == i.name %}  href="{{cat.get_absolute_url}}" {% endif %} {% endfor %} ><img src="{{i.image.url}}" style="width:auto; height:600px;" class="d-block w-100" alt="..."></a>
             <div class="carousel-caption d-none d-md-block">
                 <h5>{{i.name}}</h5>
                 <p>{{i.text}}</p>
@@ -46,8 +46,15 @@
                 <img src="{{i.image.url}}" style="width: 286px; height:200px" class="card-img-top" alt="...">
                 <div class="card-body">
                   <h5 class="card-title">{{i.name}}</h5>
-                  <span>{{i.total_price}}</span>
-                  <small style="text-decoration:line-through">{{i.unit_price}}</small> <br>
+                  {% if product.status != 'None' %}
+                  <h4 style="display:inline; color:darkgreen" class="font-weight-bold">{{i.total_price}}</h4> 
+                  <span style="text-decoration: line-through; color:darkred" class="font-weight-bold">{{i.unit_price}}</span>
+
+                  {% else %}
+                  <h4 style="display:inline; color:darkgreen" class="font-weight-bold">{{i.total_price}}</h4> 
+                  <span style="text-decoration: line-through; color:darkred" class="font-weight-bold">{{i.unit_price}}</span>
+    {% endif %}
+    <br><br>
                   <a href="{% url 'home:detail' i.id%}" class="btn btn-primary">Go somewhere</a>
                 </div>
               </div>
@@ -89,15 +96,23 @@
               <img src="{{i.image.url}}" style="width: 286px; height:200px" class="card-img-top" alt="...">
               <div class="card-body">
                 <h5 class="card-title">{{i.name}}</h5>
-                <span>{{i.total_price}}</span>
-                <small style="text-decoration:line-through">{{i.unit_price}}</small> <br>
+                {% if product.status != 'None' %}
+                  <h4 style="display:inline; color:darkgreen" class="font-weight-bold">{{i.total_price}}</h4> 
+                  <span style="text-decoration: line-through; color:darkred" class="font-weight-bold">{{i.unit_price}}</span>
+
+                  {% else %}
+                  <h4 style="display:inline; color:darkgreen" class="font-weight-bold">{{i.total_price}}</h4> 
+                  <span style="text-decoration: line-through; color:darkred" class="font-weight-bold">{{i.unit_price}}</span>
+    {% endif %}
+    <br><br>
                 <a href="{% url 'home:detail' i.id%}" class="btn btn-primary">Go somewhere</a>
               </div>
             </div>
       </div>
       {% endfor %}
+      <br><br>
     
-  </div>
+  </div style= "margin-bottom:2px;">
   <div class="swiper-pagination"></div>
 </div>
 

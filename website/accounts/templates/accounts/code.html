@@ -8,9 +8,8 @@
 
 <form method="post">
     {% csrf_token %}
-    <div style="border-radius: 5px; width:230px;margin-left: 500px ; margin-top:20px;margin-bottom: 100px;background-color: dimgrey;padding:20px" class="form"> <form method='post' novalidate> 
+    <div style="border-radius: 5px; width:230px;margin-left: 500px ; margin-top:20px;margin-bottom: 100px;background-color: dimgrey;padding:20px" class="form"> <form method='post'> 
         {% csrf_token %}
-            <input type="hidden" name="csrfmiddlewaretoken" value="nKe4yuFj2S5aohygtDyfvxrzOEgaX9cJVVyNmALEU2G4aSc4ggFim0PNvC9szMDx">
             <input style="border-radius:5px; background-color:burlywood; padding:3px" type="number" name="code" placeholder="enter your code" required="" id="id_code"> <br><br>
             <button type="submit" class="btn btn-danger" style="height: 29px; padding:1.5px;" > verify</button>
             </div>

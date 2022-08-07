@@ -9,6 +9,7 @@ from django.utils import timezone
 from django.contrib import messages
 from suds import client
 import requests
+from django.db.models import Q,Max,Min,Sum
 import json
 from django.http import HttpResponse
 import jdatetime
@@ -16,10 +17,11 @@ from django.utils.crypto import get_random_string
 import ghasedakpack
 
 def order_detail(request,order_id):
+    nums = Cart.objects.filter(user_id =requests.user.id ).aggregate(sum=Sum('quantity'))['sum']
     category = Category.objects.filter(sub_cat = False)
     form = CouponForm()
     order=Order.objects.get(id = order_id)
-    context = {'order':order,'form':form,'category':category}
+    context = {'order':order,'form':form,'category':category,'nums':nums}
     return render(request,'order/order.html',context)
 
 def order_create(request):

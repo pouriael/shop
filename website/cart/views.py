@@ -5,8 +5,10 @@ from .models import *
 from django.contrib import messages
 from order.models import *
 from django.contrib.auth.decorators import login_required
+from accounts.models import *
 
 def cart_detail(request):
+    Profile = formprofile.objects.get(user_id = request.user.id)
     if request.user.is_authenticated:
         compare = Compare.objects.filter(user_id = request.user.id)
         
@@ -23,7 +25,7 @@ def cart_detail(request):
             total += p.variants.total_price * p.quantity
         else:
             total += p.quantity * p.product.total_price 
-    return render(request,'cart/cart.html',{'compare':compare,'cart':cart,'total':total,'form':form,'user':user,'category':category})
+    return render(request,'cart/cart.html',{'compare':compare,'cart':cart,'total':total,'form':form,'user':user,'category':category,'Profile':Profile})
      
 @login_required(login_url="accounts:login")
 def add_cart(request,id):

@@ -1,5 +1,5 @@
 
-from email.message import EmailMessage
+from django.core.mail import EmailMessage
 from django.shortcuts import redirect, render ,get_object_or_404
 from .models import *
 from django.contrib import messages
@@ -25,6 +25,7 @@ def home(requests):
     return render(requests,"home/home.html",context)
 
 def product(request,slug=None,id=None):
+    nums = Cart.objects.filter(user_id =request.user.id ).aggregate(sum=Sum('quantity'))['sum']
     if request.user.is_authenticated:
         compare = Compare.objects.filter(user_id = request.user.id)
         
@@ -67,11 +68,12 @@ def product(request,slug=None,id=None):
             if 'page' in data:
                 del data['page']
             page_obj = paginator.get_page(page_num)
-    context = {"products":page_obj,"category":category,'compare':compare,'form':form,'page_num':page_num,'filter':filter,'min_price':min_price,'max_price':max_price,'data':data,}
+    context = {"products":page_obj,"category":category,'compare':compare,'form':form,'page_num':page_num,'filter':filter,'min_price':min_price,'max_price':max_price,'data':data,'nums':nums}
     return render(request,"home/product.html",context)
     
 
 def detail_product(request,id):
+    nums = Cart.objects.filter(user_id =request.user.id ).aggregate(sum=Sum('quantity'))['sum']
     if request.user.is_authenticated:
         compare = Compare.objects.filter(user_id = request.user.id)
         
@@ -122,11 +124,11 @@ def detail_product(request,id):
                 'SELECT * FROM home_Variantproduct WHERE product_variant_id=%s GROUP BY size_variant_id',[id]
             )
         context = {"product":product,'size':size,'colors':colors,"variant":variant,"variants":variants,'similar':similar,"is_like":is_like,'is_unlike':is_unlike,'cart_form':cart_form
-                    ,"comment_form":comment_form,'compare':compare,'comment':comment,'category':category,"reply_form":reply_form,'images':images,'cart_form':cart_form,'is_favourite':is_favourite,'change':change}
+                    ,"comment_form":comment_form,'compare':compare,'nums':nums,'comment':comment,'category':category,"reply_form":reply_form,'images':images,'cart_form':cart_form,'is_favourite':is_favourite,'change':change}
         return render(request,"home/detail.html",context)
     else:
         return render(request,"home/detail.html",{'compare':compare,'product':product , "similar":similar,"is_like":is_like,'is_unlike':is_unlike,'cart_form':cart_form,
-                    "comment_form":comment_form,'category':category,'comment':comment,"reply_form":reply_form,'images':images,'cart_form':cart_form,'is_favourite':is_favourite,"update":update})
+                    "comment_form":comment_form,'category':category,'nums':nums,'comment':comment,"reply_form":reply_form,'images':images,'cart_form':cart_form,'is_favourite':is_favourite,"update":update})
 
 def product_like(request,id):
     url = request.META.get("HTTP_REFERER")
@@ -198,6 +200,7 @@ def product_search(request):
 
 
 def favourite_product(request,id):
+    
     url = request.META.get("HTTP_REFERER")
     product = get_object_or_404(Product,id=id)
     is_favourite =False
@@ -216,6 +219,7 @@ def favourite_product(request,id):
     return redirect(url)
 
 def contact(request):
+    nums = Cart.objects.filter(user_id =request.user.id ).aggregate(sum=Sum('quantity'))['sum']
     if request.user.is_authenticated:
         compare = Compare.objects.filter(user_id = request.user.id)
         
@@ -226,7 +230,7 @@ def contact(request):
     if request.method == "POST":
         subject = request.POST['subject']
         email = request.POST['email']
-        msg = request.POST['msg']
+        msg = request.POST['message']
         body = subject + '\n' + email + '\n' + msg
         form = EmailMessage(
             'contact form', 
@@ -235,4 +239,4 @@ def contact(request):
             ('pouriael2002@gmail.com',),
         )
         form.send(fail_silently = False)
-    return render(request,'home/contact.html',{'compare':compare,'category':category})
+    return render(request,'home/contact.html',{'compare':compare,'category':category,'nums':nums})

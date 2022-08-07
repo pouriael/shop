@@ -65,7 +65,7 @@
                         {% for com in comment  %}
                             <div class="d-flex justify-content-between align-items-center"> 
                                 <div class="d-flex flex-row align-items-center"> 
-                                    <img src="{{com.user.Profile.profile_image.url}}" class="rounded-circle profile-image" > 
+                                    <img src="{{com.user.profile_image.url}}" class="rounded-circle profile-image" > 
                                 <div class="d-flex flex-column ml-1 comment-profile"> 
                                     <div class="comment-ratings"> 
                                         <i class="fas fa-star{% if com.rate < 1 %}-o empty {% endif %}"></i>

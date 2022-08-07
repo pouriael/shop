@@ -10,6 +10,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from random import randint
 import ghasedakpack
+from django.db.models import Q,Max,Min,Sum
 from django.core.mail import EmailMessage
 from django.views import View
 from django.utils.encoding import force_bytes ,force_str
@@ -32,6 +33,7 @@ def accounts(requests):
     return render(requests, "accounts/accounts.html")
 
 def user_register(request):
+    nums = Cart.objects.filter(user_id =request.user.id ).aggregate(sum=Sum('quantity'))['sum']
     if request.user.is_authenticated:
         compare = Compare.objects.filter(user_id = request.user.id)
     else:
@@ -62,10 +64,11 @@ def user_register(request):
             messages.success(request,"your are not registered","danger")
     else:
         form = UserregisterForm()
-    context = {"form":form,'category':category,'compare':compare} 
+    context = {"form":form,'category':category,'compare':compare,'nums':nums} 
     return render(request,'accounts/register.html',context)
 
 def user_login(request):
+    nums = Cart.objects.filter(user_id =request.user.id ).aggregate(sum=Sum('quantity'))['sum']
     if request.user.is_authenticated:
         compare = Compare.objects.filter(user_id = request.user.id)
         
@@ -94,7 +97,7 @@ def user_login(request):
                 messages.error(request,"your login has error","danger")
     else:
         form = UserloginForm()
-    context = {"form":form,'category':category,'compare':compare}
+    context = {"form":form,'category':category,'compare':compare,'nums':nums}
     return render(request,"accounts/login.html",context )
 
 def user_logout(request):
@@ -113,6 +116,7 @@ class RegisterEmial(View):
 
 @login_required(login_url="accounts:login")
 def user_profile(request):
+    nums = Cart.objects.filter(user_id =request.user.id ).aggregate(sum=Sum('quantity'))['sum']
     if request.user.is_authenticated:
         compare = Compare.objects.filter(user_id = request.user.id)
         
@@ -120,11 +124,13 @@ def user_profile(request):
         compare = Compare.objects.filter(session_key__exact = request.session.session_key,user_id =None)
     category = Category.objects.filter(sub_cat = False)
     Profile = formprofile.objects.get(user_id = request.user.id)
-    return render(request,"accounts/profile.html",{"Profile":Profile,"category":category,'compare':compare})
+    return render(request,"accounts/profile.html",{"Profile":Profile,"category":category,'compare':compare,'nums':nums})
 
 
 @login_required(login_url="accounts:login")
 def user_update(request):
+    nums = Cart.objects.filter(user_id =request.user.id ).aggregate(sum=Sum('quantity'))['sum']
+    Profile = formprofile.objects.get(user_id = request.user.id)
     if request.user.is_authenticated:
         compare = Compare.objects.filter(user_id = request.user.id)
         
@@ -142,11 +148,12 @@ def user_update(request):
     else:
         user_form = User_updateform(instance=request.user)
         profile_form = Profile_updateform(instance = request.user.formprofile)
-    context = {"user_form":user_form,"profile_form":profile_form,'category':category,'compare':compare}
+    context = {"user_form":user_form,"profile_form":profile_form,'category':category,'compare':compare,'Profile':Profile,'nums':nums}
     return render (request,"accounts/update.html",context)
 
 
 def user_change_password(request):
+    nums = Cart.objects.filter(user_id =request.user.id ).aggregate(sum=Sum('quantity'))['sum']
     if request.user.is_authenticated:
         compare = Compare.objects.filter(user_id = request.user.id)
         
@@ -164,12 +171,13 @@ def user_change_password(request):
             messages.error(request,"password is not changed","danger")
     else:
         form  = PasswordChangeForm(request.user)
-    context = {"form":form,'categroy':category,'compare':compare}
+    context = {"form":form,'categroy':category,'compare':compare,'nums':nums}
     return render(request,"accounts/change.html",context)
 
 # bayad baraye estefade az service ersal payamak az ghasedak bekharim
 
 def user_login_phone(request):
+    nums = Cart.objects.filter(user_id =request.user.id ).aggregate(sum=Sum('quantity'))['sum']
     if request.user.is_authenticated:
         compare = Compare.objects.filter(user_id = request.user.id)
         
@@ -188,11 +196,12 @@ def user_login_phone(request):
             return redirect("accounts:verify")
     else:
         form = PhoneForm()
-    context = {"form":form,"category":category,'compare':compare} 
+    context = {"form":form,"category":category,'compare':compare,'nums':nums} 
     return render(request,"accounts/login_phone.html",context)
 
 
 def verify(request):
+    nums = Cart.objects.filter(user_id =request.user.id ).aggregate(sum=Sum('quantity'))['sum']
     if request.user.is_authenticated:
         compare = Compare.objects.filter(user_id = request.user.id)
         
@@ -212,9 +221,10 @@ def verify(request):
                 messages.error(request,"your code is wrong",'danger')
     else:
         form = CodeForm()
-    return render(request,"accounts/code.html",{"form":form,"category":category,"compare":compare})
+    return render(request,"accounts/code.html",{"form":form,"category":category,"compare":compare,'nums':nums})
 
 def favourite(request):
+    nums = Cart.objects.filter(user_id =request.user.id ).aggregate(sum=Sum('quantity'))['sum']
     if request.user.is_authenticated:
         compare = Compare.objects.filter(user_id = request.user.id)
         
@@ -222,9 +232,10 @@ def favourite(request):
         compare = Compare.objects.filter(session_key__exact = request.session.session_key,user_id =None)
     category = Category.objects.filter(sub_cat = False)
     product = request.user.fa_user.all()
-    return render(request,'accounts/favourite.html',{'product':product,'category':category,'compare':compare})
+    return render(request,'accounts/favourite.html',{'product':product,'category':category,'compare':compare,'nums':nums})
 
 def history(request):
+    nums = Cart.objects.filter(user_id =request.user.id ).aggregate(sum=Sum('quantity'))['sum']
     if request.user.is_authenticated:
         compare = Compare.objects.filter(user_id = request.user.id)
         
@@ -232,9 +243,10 @@ def history(request):
         compare = Compare.objects.filter(session_key__exact = request.session.session_key,user_id =None)
     category = Category.objects.filter(sub_cat = False)
     data = ItemOrder.objects.filter(user_id = request.user.id)
-    return render(request,'accounts/history.html',{'data':data,'category':category,'compare':compare})
+    return render(request,'accounts/history.html',{'data':data,'category':category,'compare':compare,'nums':nums})
 
 def product_view(request):
+    nums = Cart.objects.filter(user_id =request.user.id ).aggregate(sum=Sum('quantity'))['sum']
     if request.user.is_authenticated:
         compare = Compare.objects.filter(user_id = request.user.id)
         
@@ -242,7 +254,7 @@ def product_view(request):
         compare = Compare.objects.filter(session_key__exact = request.session.session_key,user_id =None)
     category = Category.objects.filter(sub_cat = False)
     product = Product.objects.filter(view = request.user.id)
-    return render(request,'accounts/view.html',{'product':product,'category':category,'compare':compare})
+    return render(request,'accounts/view.html',{'product':product,'category':category,'compare':compare,'nums':nums})
     
 class ResetPassword(auth_views.PasswordResetView):
     template_name = "accounts/reset.html"

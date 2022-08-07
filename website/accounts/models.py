@@ -8,7 +8,7 @@ from django_jalali.db import models as jmodels
 
 
 class formprofile(models.Model):
-    user= models.OneToOneField(User,on_delete=models.CASCADE,verbose_name = 'کاربر')
+    user= models.OneToOneField(User,on_delete=models.CASCADE,verbose_name = 'کاربر',related_name='userp')
     phone = PhoneField(null=True,blank=True,verbose_name = 'شماره همراه')
     address = models.CharField(max_length=50,null=True,blank=True,verbose_name = 'آدرس')
     profile_image = models.ImageField(upload_to = 'profile/',default="",null =True,blank=True,verbose_name = 'عکس پروفایل')
