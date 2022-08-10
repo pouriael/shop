@@ -6,6 +6,7 @@ from django.contrib import messages
 from order.models import *
 from django.contrib.auth.decorators import login_required
 from accounts.models import *
+from django.contrib.auth.models import User
 
 def cart_detail(request):
     Profile = formprofile.objects.get(user_id = request.user.id)
