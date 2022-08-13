@@ -1,10 +1,11 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'navbar.css'%}">
 <div class="nav">
-  <div class="container">
-    <ul>
+  <div class="container" >
+    <ul style="margin-left:-80px;">
       <li><a href="{% url "home:home"%}">Home</a></li>
       <li><a href="{% url "home:product"%}">Product</a></li>
+      <li><a href="{% url "blog:blog"%}">blog</a></li>
       {% if user.is_authenticated %}
       <li><a href="{% url "cart:cart_detail"%}">Cart {{nums}}</a></li>
       {% endif %}
@@ -36,8 +37,8 @@
     
     <form class="form-inline float-sm-right" action="{% url 'home:product' %}">
       {% csrf_token %}
-      <input type="search" name="search" class="form-control" placeholder="Search" style="margin-top: -11px; margin-right: 5px;">
-      <input type="submit" value="Search" class="btn btn-success" style="margin-top: -11px;">
+      <input type="search" name="search" class="form-control" placeholder="Search" style="margin-top: -11px; margin-right: -50px;">
+      <input type="submit" value="Search" class="btn btn-success" style="margin-top: -11px; margin-right:-70px;margin-left:40px" >
   </form>
   </div>
 </div>

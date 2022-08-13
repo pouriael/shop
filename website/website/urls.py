@@ -10,6 +10,7 @@ urlpatterns = [
     path('ckeditor/',include('ckeditor_uploader.urls')),
     path('cart/',include('cart.urls',namespace='cart')),
     path('order/',include('order.urls',namespace='order')),
+    path('blog/',include('blog.urls',namespace='blog')),
 
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
