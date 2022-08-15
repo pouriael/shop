@@ -17,7 +17,7 @@ from django.utils.crypto import get_random_string
 import ghasedakpack
 
 def order_detail(request,order_id):
-    nums = Cart.objects.filter(user_id =requests.user.id ).aggregate(sum=Sum('quantity'))['sum']
+    nums = Cart.objects.filter(user_id =request.user.id ).aggregate(sum=Sum('quantity'))['sum']
     category = Category.objects.filter(sub_cat = False)
     form = CouponForm()
     order=Order.objects.get(id = order_id)

@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-r%p8k_r8(mc44r7ei*=a^jwfi-f6+^u4zv4t3z-05y*sl2#k!w
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -137,7 +137,7 @@ MEDIA_ROOT = BASE_DIR /'media/'
 CKEDITOR_UPLOAD_PATH = 'ck/'
 CKEDITOR_CONFIGS = {
     'default':{
-        'toolbar':'full'
+    'toolbar':'full'
     }
 }
 TAGGIT_CASE_INSENSITIVE=True
@@ -147,19 +147,6 @@ EMAIL_HOST_USER = 'pouriael2002@gmail.com'
 EMAIL_HOST_PASSWORD = 'llsfhqomtvnczspj'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 # Default primary key field type
