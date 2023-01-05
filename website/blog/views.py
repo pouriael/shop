@@ -27,5 +27,4 @@ def detail(request,id):
 def dastebandi(request,id):
     tag =  Blog.tags.get(id =id)
     blog = Blog.objects.filter(tags =tag)
-    
     return render(request,'blog/dastebandi.html',{'tag':tag,'blog':blog})

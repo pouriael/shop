@@ -28,10 +28,8 @@ def product(request,slug=None,id=None):
     nums = Cart.objects.filter(user_id =request.user.id ).aggregate(sum=Sum('quantity'))['sum']
     if request.user.is_authenticated:
         compare = Compare.objects.filter(user_id = request.user.id)
-        
     else:
         compare = Compare.objects.filter(session_key__exact = request.session.session_key,user_id =None)
-        
     cart_form = CartForm()
     products = Product.objects.all()
     min = Product.objects.aggregate(unit_price = Min('unit_price'))
@@ -40,7 +38,7 @@ def product(request,slug=None,id=None):
     max_price = int(max['unit_price']+100)
     filter = ProductFilter(request.GET,queryset=products)
     products = filter.qs
-    category = Category.objects.filter(sub_cat = False)
+    category = Category.objects.filter()
     paginator = Paginator(products,8 )
     page_num = request.GET.get('page')
     data = request.GET.copy()
@@ -76,7 +74,6 @@ def detail_product(request,id):
     nums = Cart.objects.filter(user_id =request.user.id ).aggregate(sum=Sum('quantity'))['sum']
     if request.user.is_authenticated:
         compare = Compare.objects.filter(user_id = request.user.id)
-        
     else:
         compare = Compare.objects.filter(session_key__exact = request.session.session_key,user_id =None)
         

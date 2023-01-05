@@ -3,7 +3,7 @@
     <div class="container">
         <div class="card mt-3 p-5">
             {% for i in data  %}
-                <h2>name :{{i.product.name}} &nbsp; price:{{i.order.get_price}}</h2>
+                <h2>name :{{i.product.name}} &nbsp; price:{{i.order.end_price}}</h2>
                 <img src="{{i.product.image.url}}" style="height:200px;width:300px" alt="">
                 <h3>address: {{i.order.address}}</h3>
                 {% if i.order.paid == True %}

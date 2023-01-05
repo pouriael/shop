@@ -68,7 +68,7 @@ mobile = '09123456789'  # Optional
 CallbackURL = 'http://localhost:8000/order:verify/'
 
 
-def send_request(request,price):
+def send_request(request,price,order_id):
     global amount
     amount = price
     req_data = {

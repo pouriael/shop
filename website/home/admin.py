@@ -23,6 +23,7 @@ class Product_Admin(admin.ModelAdmin):
     list_filter = ('available',)
     list_editable = ('amount',)
     raw_id_fields = ('category',)
+    change_list_template = 'home/change.html'
     inlines = [ProductVariantInlines,ImagesInlines]
 admin.site.register(Product,Product_Admin)
 

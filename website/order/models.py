@@ -15,6 +15,7 @@ class Order(models.Model):
     l_name = models.CharField(max_length=50,verbose_name = 'نام خانوادگی')
     address = models.CharField(max_length=500,verbose_name = 'آدرس')
     code = models.CharField(max_length=200,null=True)
+    end_price = models.FloatField(default=0)
 
     class Meta:
         verbose_name = 'فرم سفارش'
@@ -23,12 +24,15 @@ class Order(models.Model):
     def __str__(self):
         return self.user.username 
     
+    @property
     def get_price(self):
         total = sum(i.price() for i in self.order_item.all())
         if self.discount:
             discount_price =(self.discount/100) * total
-            return int(total - discount_price)
-        return total
+            self.end_price = int(total - discount_price)
+        else:
+            self.end_price = total
+        return self.end_price
 
 class ItemOrder(models.Model):
     order = models.ForeignKey(Order,on_delete=models.CASCADE,related_name="order_item",verbose_name = 'سفارش')

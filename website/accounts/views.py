@@ -1,4 +1,3 @@
-
 from django.shortcuts import redirect, render,reverse
 from .forms import *
 from .models import *
@@ -22,6 +21,7 @@ from django.contrib.auth import views as auth_views
 from django.urls import reverse_lazy
 from order.models import *
 from cart.models import *
+from django.views.generic import TemplateView
 
 class EmailToken(PasswordResetTokenGenerator):
     def _make_hash_value(self, user, timestamp):
@@ -29,8 +29,8 @@ class EmailToken(PasswordResetTokenGenerator):
 
 email_generator = EmailToken()
 
-def accounts(requests):
-    return render(requests, "accounts/accounts.html")
+class accounts(TemplateView):
+    template_name = 'accounts/accounts.html'
 
 def user_register(request):
     nums = Cart.objects.filter(user_id =request.user.id ).aggregate(sum=Sum('quantity'))['sum']
@@ -71,7 +71,6 @@ def user_login(request):
     nums = Cart.objects.filter(user_id =request.user.id ).aggregate(sum=Sum('quantity'))['sum']
     if request.user.is_authenticated:
         compare = Compare.objects.filter(user_id = request.user.id)
-        
     else:
         compare = Compare.objects.filter(session_key__exact = request.session.session_key,user_id =None)
         
@@ -189,10 +188,11 @@ def user_login_phone(request):
         form = PhoneForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            phone =data["phone"]
+            phone =f"0{data['phone']}"
+            print(phone)
             random_code = randint(100,1000)
-            sms = ghasedakpack.Ghasedak("Your APIKEY")
-            sms.send({'message':random_code, 'receptor' : phone, 'linenumber': '3000xxxxx' })
+            sms = ghasedakpack.Ghasedak("43066b5ea50c6897e993f127e3d1b9c0dabbb1704f685d06a48f9338ff5940fc")
+            sms.send({'message':'hello, world!', 'receptor' : '09938381683', 'linenumber': '10008566', 'senddate': '', 'checkid': ''})
             return redirect("accounts:verify")
     else:
         form = PhoneForm()

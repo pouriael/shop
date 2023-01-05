@@ -10,15 +10,52 @@
             
             <input style="border-radius:5px; background-color:burlywood; padding:3px" type="text" name="user" placeholder="enter your username" maxlength="50" required="" id="id_user"> <br><br>
             <input style="border-radius:5px; background-color:burlywood; padding:3px" type="password" name="password" placeholder="enter your password" maxlength="20" required="" id="id_password"><br> <br>
-            <button type="submit" class="btn btn-info" style="height: 29px; padding:1.5px;" ><a style="color:rgb(54, 50, 50);text-decoration:none;" href="{%url 'accounts:login_phone' %}">login with phone</a> </button><br> <br>
+            <button type="submit" class="button-87" ><a style="color:rgb(54, 50, 50);text-decoration:none;" href="{%url 'accounts:login_phone' %}">login with phone</a> </button><br> <br>
             <span style="color:aliceblue"> Remember me</span>
             <input style="border-radius:5px; background-color:burlywood; padding:3px" type="checkbox" name="remember"  id="id_remember"><br>
             <a href="{%url 'accounts:reset' %}">forget password</a> <br> <br>
-            <button type="submit" class="btn btn-danger" style="height: 29px; padding:1.5px;" > login</button>
+            <button type="submit" class="button-87" style="color:rgb(54, 50, 50);text-decoration:none;" >login</button>
             </div>
+            
     
 </form>
 
-
+<style>
+    
+    
+    /* button ---------------------------------------------------------------------------------------------------------------------- */
+    .button-87 {
+      margin: -3px;
+      padding: 3px 19px;
+      text-align: center;
+      text-transform: uppercase;
+      transition: 0.5s;
+      background-size: 200% auto;
+      color: white;
+      border-radius: 10px;
+      display: block;
+      border: 0px;
+      font-weight: 700;
+      box-shadow: 0px 0px 14px -7px #f09819;
+      background-image: linear-gradient(45deg, #FF512F 0%, #F09819  51%, #FF512F  100%);
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+    }
+    
+    .button-87:hover {
+      background-position: right center;
+      /* change the direction of the change here */
+      color: #fff;
+      text-decoration: none;
+    }
+    
+    .button-87:active {
+      transform: scale(0.95);
+    }
+    /* input ---------------------------------------------------------------------------------------------------------------------- */
+  
+</style>
 
 {% endblock body %}
